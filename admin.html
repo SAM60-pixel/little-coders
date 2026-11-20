@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071329">
+<title>Little Coders | QR Admin</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 70% 0%,#163a69 0,transparent 40%),#071329;color:#f7f9ff;font-family:Arial,sans-serif;display:grid;place-items:center;padding:22px}.panel{width:min(560px,100%);background:#10213e;border:1px solid #ffffff25;border-radius:20px;padding:26px;box-shadow:0 20px 60px #0005}h1{margin-top:0}.muted{color:#b7c7df;line-height:1.6}label{display:block;margin:14px 0 6px}input{width:100%;padding:13px;border-radius:9px;border:1px solid #ffffff35;background:#071329;color:white;font-size:1rem}button,.back{display:inline-block;border:0;border-radius:9px;padding:12px 16px;margin-top:14px;background:linear-gradient(100deg,#36e6ee,#91b5ff);color:#071329;font-weight:bold;cursor:pointer;text-decoration:none}.secondary{background:#263b5d;color:white}.danger{background:#ffe1e1;color:#7b1010;padding:8px 10px;margin:0}.row{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#0b1930;border:1px solid #ffffff20;padding:12px;border-radius:10px;margin:10px 0}.row small{display:block;color:#b7c7df;overflow-wrap:anywhere;margin-top:4px}.hidden{display:none}.message{min-height:24px;color:#b7c7df;margin-top:12px}.back{background:transparent;border:1px solid #ffffff35;color:#f7f9ff}
+</style>
+</head>
+<body>
+<main class="panel">
+<h1>Little Coders QR Admin</h1>
+<p class="muted">Sign in with the administrator account to add or remove app QR codes. Visitors do not need to sign in.</p>
+<section id="loginPanel">
+<label for="email">Admin email</label><input id="email" type="email" autocomplete="username" required>
+<label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required>
+<button id="loginBtn">Sign in</button>
+</section>
+<section id="managePanel" class="hidden">
+<p id="signedIn" class="muted"></p>
+<h2>Add an app QR code</h2>
+<label for="appName">App name</label><input id="appName" maxlength="60" placeholder="e.g. Fitness Tracker">
+<label for="appUrl">App URL</label><input id="appUrl" type="url" placeholder="https://..." required>
+<button id="addBtn">Add QR code</button>
+<button id="logoutBtn" class="secondary">Sign out</button>
+<h2>Current QR codes</h2>
+<div id="appList"><p class="muted">Loading…</p></div>
+</section>
+<p id="message" class="message" role="status" aria-live="polite"></p>
+<a class="back" href="./">← Back to website</a>
+</main>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyDKlAkrJ8_e8n0D6JmVP3oMSLxXx-hNvG0",
+  authDomain: "little-coders-138c1.firebaseapp.com",
+  projectId: "little-coders-138c1",
+  storageBucket: "little-coders-138c1.firebasestorage.app",
+  messagingSenderId: "306283958273",
+  appId: "1:306283958273:web:33d1c980466abc673e7000",
+  measurementId: "G-085QHGCHEF"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const loginPanel = document.getElementById("loginPanel");
+const managePanel = document.getElementById("managePanel");
+const message = document.getElementById("message");
+const list = document.getElementById("appList");
+let stopListening = null;
+
+document.getElementById("loginBtn").addEventListener("click", async () => {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  if (!email || !password) { message.textContent = "Enter your admin email and password."; return; }
+  message.textContent = "Signing in…";
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    console.error(error);
+    message.textContent = "Sign-in failed. Check the email and password, then try again.";
+  }
+});
+
+onAuthStateChanged(auth, (user) => {
+  loginPanel.classList.toggle("hidden", !!user);
+  managePanel.classList.toggle("hidden", !user);
+  if (user) {
+    document.getElementById("signedIn").textContent = `Signed in as ${user.email}`;
+    message.textContent = "You are signed in.";
+    if (stopListening) stopListening();
+    const appsQuery = query(collection(db, "apps"), orderBy("createdAt", "desc"));
+    stopListening = onSnapshot(appsQuery, (snapshot) => {
+      list.innerHTML = "";
+      if (snapshot.empty) { list.innerHTML = '<p class="muted">No QR codes added yet.</p>'; return; }
+      snapshot.forEach((itemDoc) => {
+        const data = itemDoc.data();
+        const row = document.createElement("div");
+        row.className = "row";
+        const info = document.createElement("div");
+        const name = document.createElement("strong");
+        name.textContent = data.name || "Untitled app";
+        const url = document.createElement("small");
+        url.textContent = data.url || "";
+        info.append(name, url);
+        const remove = document.createElement("button");
+        remove.className = "danger";
+        remove.textContent = "Delete";
+        remove.addEventListener("click", async () => {
+          if (!confirm(`Delete "${data.name}"?`)) return;
+          try { await deleteDoc(doc(db, "apps", itemDoc.id)); message.textContent = "QR code deleted."; }
+          catch (error) { console.error(error); message.textContent = "Could not delete. Check your Firestore rules."; }
+        });
+        row.append(info, remove);
+        list.appendChild(row);
+      });
+    }, (error) => {
+      console.error(error);
+      message.textContent = "Could not read the QR list. Check Firestore rules.";
+    });
+  } else {
+    if (stopListening) { stopListening(); stopListening = null; }
+  }
+});
+
+document.getElementById("addBtn").addEventListener("click", async () => {
+  const name = document.getElementById("appName").value.trim();
+  const url = document.getElementById("appUrl").value.trim();
+  if (!name || !url) { message.textContent = "Enter both an app name and URL."; return; }
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== "https:" && parsed.protocol !== "http:") throw new Error("URL must use HTTP or HTTPS");
+    message.textContent = "Saving…";
+    await addDoc(collection(db, "apps"), { name, url: parsed.href, createdAt: serverTimestamp() });
+    document.getElementById("appName").value = "";
+    document.getElementById("appUrl").value = "";
+    message.textContent = "QR code added. The public website will update automatically.";
+  } catch (error) {
+    console.error(error);
+    message.textContent = "Could not add QR code. Check the URL and Firestore rules.";
+  }
+});
+
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+  try { await signOut(auth); message.textContent = "Signed out."; }
+  catch (error) { console.error(error); message.textContent = "Sign-out failed."; }
+});
+</script>
+</body>
+</html>

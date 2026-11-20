@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071329">
+<title>Little Coders | Imagine • Build • Create</title>
+<style>
+:root{--bg:#071329;--panel:#10213e;--cyan:#36e6ee;--blue:#367bff;--gold:#ffc928;--white:#f7f9ff;--muted:#b7c7df;--line:#ffffff20}
+*{box-sizing:border-box;scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 75% 0%,#163a69 0,transparent 38%),var(--bg);color:var(--white);font-family:Arial, sans-serif}a{color:inherit;text-decoration:none}.wrap{width:min(1140px,calc(100% - 36px));margin:auto}
+header{position:sticky;top:0;z-index:9;background:#071329eF;backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}nav{height:75px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.04em}.brand img{width:49px;height:49px;object-fit:contain;border-radius:12px}.links{display:flex;gap:23px;color:var(--muted);font-size:.93rem}.links a:hover{color:var(--cyan)}.menu{display:none;background:none;color:white;border:1px solid var(--line);padding:8px 12px;border-radius:9px}
+.hero{padding:65px 0 75px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:38px;min-height:590px}.eyebrow{color:var(--cyan);font-weight:bold;letter-spacing:.15em;text-transform:uppercase;font-size:.78rem}h1,h2,h3{line-height:1.08}h1{font-size:clamp(3rem,6.8vw,5.5rem);margin:16px 0;letter-spacing:-.055em}.gradient{background:linear-gradient(90deg,var(--cyan),#91b5ff,var(--gold));color:transparent;background-clip:text}.lead{color:var(--muted);font-size:1.08rem;line-height:1.75;max-width:570px}.btn{display:inline-block;padding:13px 19px;border-radius:11px;font-weight:bold;margin:13px 8px 0 0;border:1px solid var(--line)}.primary{background:linear-gradient(100deg,var(--cyan),#91b5ff);color:#071329;border:0}.hero-logo{width:100%;max-width:620px;border-radius:24px;box-shadow:0 25px 80px #0007;border:1px solid #ffffff35;background:#fff}
+section{padding:75px 0;scroll-margin-top:75px}.head{max-width:690px;margin-bottom:30px}.head h2{font-size:clamp(2.1rem,4.5vw,3.3rem);margin:12px 0}.head p,.muted{color:var(--muted);line-height:1.75}.about{display:grid;grid-template-columns:190px 1fr;gap:30px;align-items:center;background:linear-gradient(130deg,#112747,#101a34);border:1px solid var(--line);padding:28px;border-radius:23px}.crest{width:170px;max-width:100%;border-radius:16px;background:white;padding:8px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{border:1px solid var(--line);border-radius:19px;overflow:hidden;background:linear-gradient(145deg,#122747,#0c1930)}.card .visual{height:145px;display:grid;place-items:center;font-size:54px;background:linear-gradient(135deg,#114b66,#233a77)}.card .body{padding:20px}.card p{color:var(--muted);line-height:1.65}.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.gallery img{width:100%;height:210px;object-fit:cover;border-radius:16px;border:1px solid var(--line);background:white}.videos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.video-card{background:#101f3a;border:1px solid var(--line);border-radius:17px;padding:12px}.video-card video{width:100%;border-radius:10px;background:#000;aspect-ratio:16/9}.video-card h3{font-size:1rem;margin:12px 4px 5px}
+.qr-wrap{padding:24px;background:linear-gradient(135deg,#102440,#111a35);border:1px solid var(--line);border-radius:22px}.qr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:15px}.qr-card{background:white;color:#101827;border-radius:15px;padding:14px;text-align:center}.qr-card img{width:155px;height:155px;object-fit:contain;image-rendering:pixelated}.qr-card strong{display:block;margin:8px 0}.qr-card p{font-size:.8rem;color:#536078;overflow-wrap:anywhere}.qr-form{display:grid;grid-template-columns:1fr 1.5fr auto;gap:10px;margin:20px 0}input{background:#071329;color:white;border:1px solid var(--line);border-radius:10px;padding:13px;font:inherit;min-width:0}.qr-card button{background:#e8efff;border:0;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:bold}.qr-card a{color:#2458bf;font-size:.8rem}footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:.9rem}.foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+@media(max-width:800px){.links{display:none;position:absolute;top:75px;left:0;right:0;background:#071329;padding:20px;flex-direction:column}.links.open{display:flex}.menu{display:block}.hero{grid-template-columns:1fr;text-align:center;padding-top:48px}.lead{margin:auto}.about{grid-template-columns:1fr;text-align:center}.crest{margin:auto}.grid,.videos{grid-template-columns:1fr 1fr}.gallery{grid-template-columns:1fr 1fr}.qr-form{grid-template-columns:1fr}}
+@media(max-width:520px){.grid,.videos,.gallery{grid-template-columns:1fr}.hero{min-height:auto}.hero-logo{max-width:420px}.gallery img{height:230px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><nav>
+<a class="brand" href="#home"><img src="assets/little-coders-logo.png" alt="Little Coders logo"> LITTLE CODERS</a>
+<div class="links" id="links"><a href="#home">Home</a><a href="#about">About</a><a href="#projects">Projects</a><a href="#gallery">Gallery</a><a href="#videos">Videos</a><a href="#qrcodes">QR Codes</a></div>
+<button class="menu" onclick="document.getElementById('links').classList.toggle('open')">☰</button>
+</nav></div></header>
+<main class="wrap">
+<section class="hero" id="home"><div><div class="eyebrow">Imagine • Build • Create</div><h1>Welcome to<br><span class="gradient">Little Coders!</span></h1><p class="lead">A world of student creativity, coding and innovation. Explore our projects, watch our demonstrations and scan QR codes to discover apps made with MIT App Inventor.</p><a class="btn primary" href="#projects">Explore projects ↗</a><a class="btn" href="#qrcodes">Explore app QR codes ▦</a></div><div><img class="hero-logo" src="assets/little-coders-logo.png" alt="Little Coders robot and coding logo"></div></section>
+<section id="about"><div class="head"><div class="eyebrow">About us</div><h2>Learning today. <span class="gradient">Creating tomorrow.</span></h2></div><div class="about"><img class="crest" src="assets/school-emblem.png" alt="School emblem"><div><h3>Our coding journey</h3><p class="muted">Little Coders is a student project showcase for ideas, apps and experiments. We use MIT App Inventor to turn creative thinking into interactive applications. This website brings our work together in one place for visitors, teachers and competition judges.</p><p class="muted">You can update this paragraph with your school introduction, team members and competition details.</p></div></div></section>
+<section id="projects"><div class="head"><div class="eyebrow">What we create</div><h2>Our <span class="gradient">projects.</span></h2><p class="muted">A showcase of apps, prototypes and ideas. Replace the sample descriptions with your final project details.</p></div><div class="grid">
+<article class="card"><div class="visual">📱</div><div class="body"><h3>MIT App Inventor Apps</h3><p>Mobile applications designed and developed using visual programming.</p></div></article>
+<article class="card"><div class="visual">🤖</div><div class="body"><h3>Robotics & Innovation</h3><p>Creative technology ideas, experiments and working prototypes.</p></div></article>
+<article class="card"><div class="visual">💡</div><div class="body"><h3>New Ideas Lab</h3><p>Our concepts, designs and problem-solving projects in progress.</p></div></article>
+</div></section>
+<section id="gallery"><div class="head"><div class="eyebrow">Snapshots</div><h2>Project <span class="gradient">gallery.</span></h2><p class="muted">Your supplied Little Coders logo and school emblem are included below.</p></div><div class="gallery"><img src="assets/little-coders-logo.png" alt="Little Coders logo"><img src="assets/school-emblem.png" alt="School emblem"><img src="assets/app-qr-code.png" alt="Supplied app QR code"></div></section>
+<section id="videos"><div class="head"><div class="eyebrow">Watch our work</div><h2>Videos & <span class="gradient">demonstrations.</span></h2><p class="muted">Your three uploaded videos are now embedded below. Use the player controls to watch them.</p></div><div class="videos">
+<div class="video-card"><video controls preload="metadata"><source src="assets/project-video-1.mp4" type="video/mp4">Your browser does not support video.</video><h3>Project video 01</h3></div>
+<div class="video-card"><video controls preload="metadata"><source src="assets/project-video-2.mp4" type="video/mp4">Your browser does not support video.</video><h3>Project video 02</h3></div>
+<div class="video-card"><video controls preload="metadata"><source src="assets/project-video-3.mp4" type="video/mp4">Your browser does not support video.</video><h3>Project video 03</h3></div>
+</div></section>
+<section id="qrcodes"><div class="head"><div class="eyebrow">Scan • Try • Explore</div><h2>App <span class="gradient">QR station.</span></h2><p class="muted">The QR code you supplied is already displayed here. Add more MIT App Inventor app links whenever you need.</p></div><div class="qr-wrap"><div class="qr-grid" id="qrGrid"></div><form class="qr-form" id="form"><input id="name" placeholder="App name" required maxlength="60"><input id="url" type="url" placeholder="App URL (https://...)" required><button class="btn primary" type="submit">＋ Add QR</button></form><p class="muted" style="font-size:.85rem">New QR entries are saved in this browser on this device. The supplied QR image is shown as uploaded; its encoded content is not assumed to be a web link.</p></div></section>
+</main>
+<footer><div class="wrap foot"><span>© <span id="year"></span> Little Coders</span><span>Imagine • Build • Create ✦</span></div></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const grid=document.getElementById('qrGrid'), key='littleCodersQrLinks_v2';
+let items=[];try{items=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){}
+function persist(){try{localStorage.setItem(key,JSON.stringify(items))}catch(e){}}
+function draw(){
+ grid.innerHTML='';
+ const supplied=document.createElement('div');supplied.className='qr-card';
+ supplied.innerHTML='<img src="assets/app-qr-code.png" alt="Provided QR code"><strong>Featured App QR</strong><p>Original QR code supplied for Little Coders</p>';
+ grid.appendChild(supplied);
+ items.forEach((it,i)=>{
+  const c=document.createElement('div');c.className='qr-card';const q=document.createElement('div');c.appendChild(q);
+  const title=document.createElement('strong');title.textContent=it.name;c.appendChild(title);
+  const link=document.createElement('a');link.href=it.url;link.target='_blank';link.rel='noopener';link.textContent='Open app link';c.appendChild(link);
+  const del=document.createElement('button');del.textContent='Remove';del.style.display='block';del.style.margin='10px auto 0';del.onclick=()=>{items.splice(i,1);persist();draw()};c.appendChild(del);grid.appendChild(c);
+  if(window.QRCode)new QRCode(q,{text:it.url,width:155,height:155,correctLevel:QRCode.CorrectLevel.H});
+ });
+}
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('name').value.trim(),url=document.getElementById('url').value.trim();try{const u=new URL(url);if(!['https:','http:'].includes(u.protocol))throw 0}catch(err){alert('Enter a valid http:// or https:// link.');return}items.push({name,url});persist();draw();e.target.reset()});
+document.getElementById('year').textContent=new Date().getFullYear();draw();
+</script>
+</body></html>
